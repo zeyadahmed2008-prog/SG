@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>SG — Invitation</title>
+  <style>
+    :root{--dark:#0b2239;--white:#fff;--accent:#0b66ff;}
+    body{margin:0;font-family:Arial,Helvetica,sans-serif;background:var(--dark);color:var(--white);-webkit-font-smoothing:antialiased;}
+    .wrap{max-width:800px;margin:40px auto;padding:20px;}
+    .card{background:rgba(255,255,255,0.04);padding:22px;border-radius:12px;text-align:center;}
+    h2{margin-top:0;}
+    .info{margin:12px 0;font-size:16px;line-height:1.4;white-space:pre-wrap;}
+    .small{opacity:0.8;font-size:13px;}
+    .btn{display:inline-block;margin-top:12px;padding:10px 14px;border-radius:8px;background:var(--accent);color:var(--white);text-decoration:none;}
+    .muted{opacity:0.85;font-size:13px;margin-top:10px;}
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <div class="card" id="card">
+      <h2 id="title">Invitation</h2>
+      <div id="content" class="info">Loading invitation...</div>
+      <a id="share-btn" class="btn" href="#">Share / Copy Link</a>
+      <div id="error" class="muted"></div>
+    </div>
+  </div>
+
+  <script>
+    // safe decode using TextDecoder
+    function decodeData(b64){
+      try{
+        const binary = atob(b64);
+        const bytes = new Uint8Array(binary.length);
+        for(let i=0;i<binary.length;i++) bytes[i]=binary.charCodeAt(i);
+        return new TextDecoder().decode(bytes);
+      }catch(e){ return null; }
+    }
+
+    function getParam(name){
+      const params = new URLSearchParams(window.location.search);
+      return params.get(name);
+    }
+
+    (function(){
+      const dataParam = getParam('data');
+      if(!dataParam){
+        document.getElementById('content').innerText = 'No invitation data found.';
+        document.getElementById('error').innerText = 'If you opened this page manually, make sure the QR / link includes ?data=...';
+        return;
+      }
+      try{
+        const decoded = decodeURIComponent(dataParam);
+        const b64 = decoded;
+        const jsonStr = decodeData(b64);
+        const obj = JSON.parse(jsonStr);
+        // show invitation
+        const text = `Dear ${obj.guest}\n\nYou are invited to:\n${obj.eventName}\n\nWhen: ${obj.date} ${obj.time || ''}\nWhere: ${obj.venue || 'TBA'}\nDress code: ${obj.dress || '—'}\n\nNotes:\n${obj.desc || ''}`;
+        document.getElementById('content').innerText = text;
+        document.getElementById('share-btn').href = window.location.href;
+        document.getElementById('error').innerText = '';
+      }catch(e){
+        document.getElementById('content').innerText = 'Could not read invitation data.';
+        document.getElementById('error').innerText = 'Data corrupted or not valid.';
+      }
+    })();
+  </script>
+</body>
+</html>
