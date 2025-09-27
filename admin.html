@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SG Events - Admin</title>
+    <link rel="stylesheet" href="style.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/4.1.1/crypto-js.min.js"></script>
+</head>
+<body>
+    <div class="container">
+        <h1>Admin Dashboard</h1>
+        <nav>
+            <a href="settings.html">Settings</a>
+            <a href="invite.html">Generate QR</a>
+            <a href="scanner.html">Scan QR</a>
+            <a href="index.html">Logout</a>
+        </nav>
+        <h2>Create/Edit Event</h2>
+        <form id="eventForm">
+            <input type="hidden" id="eventId">
+            <input type="text" id="eventName" placeholder="Event Name" required>
+            <input type="date" id="date" required>
+            <input type="time" id="time" required>
+            <input type="text" id="dressCode" placeholder="Dress Code">
+            <input type="text" id="venue" placeholder="Venue" required>
+            <textarea id="description" placeholder="Description"></textarea>
+            <textarea id="invitationHistory" placeholder="Invitation History"></textarea>
+            <button type="submit">Save Event</button>
+        </form>
+        <h2>Events List</h2>
+        <input type="text" id="eventSearch" placeholder="Search events..." oninput="searchEvents()">
+        <ul id="eventsUl"></ul>
+        <div id="manageGuestsSection" style="display:none;">
+            <h3>Manage Guests for <span id="manageEventName"></span></h3>
+            <ul id="guestsUl"></ul>
+            <button onclick="closeManageGuests()">Close</button>
+        </div>
+    </div>
+    <script src="script.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            loadGlobalStyles();
+            loadEvents();
+        });
+    </script>
+</body>
+</html>

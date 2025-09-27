@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SG Events - Settings</title>
+    <link rel="stylesheet" href="style.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/4.1.1/crypto-js.min.js"></script>
+</head>
+<body>
+    <div class="container">
+        <h1>Settings</h1>
+        <nav>
+            <a href="admin.html">Back to Admin</a>
+        </nav>
+        <h2>Change Password</h2>
+        <form id="passwordForm">
+            <input type="password" id="newPassword" placeholder="New Password" required>
+            <button type="submit">Save Password</button>
+        </form>
+        <h2>Global Theme</h2>
+        <form id="globalThemeForm">
+            <input type="color" id="globalBgColor" value="#f0f0f0">
+            <input type="color" id="globalTextColor" value="#000000">
+            <input type="color" id="globalAccentColor" value="#007bff">
+            <button type="submit">Apply Global Theme</button>
+        </form>
+        <h2>Invite Page Theme</h2>
+        <form id="inviteThemeForm">
+            <input type="color" id="inviteBgColor" value="#ffffff">
+            <input type="color" id="inviteTextColor" value="#000000">
+            <input type="color" id="inviteAccentColor" value="#28a745">
+            <button type="submit">Apply Invite Theme</button>
+        </form>
+    </div>
+    <script src="script.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            loadGlobalStyles();
+            loadSettings();
+        });
+    </script>
+</body>
+</html>
